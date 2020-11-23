@@ -123,7 +123,7 @@ const getChallenges = async () => {
           ".card-body bg-light",
           el(".card-title large", { innerText: challenge.title }, joinButton),
           el("p.card-title", {
-            innerHTML: challenge.description + "<br> Available for: ",
+            innerHTML: "Available for next: ",
           }),
           el("p.card-text")
         )
@@ -324,8 +324,7 @@ function setTimer(i, countDownDate) {
 
       // Display the result in the element with id="demo"
 
-      elem[0].innerText =
-        hours + "h " + minutes + "m " + seconds + "s " + "remaining";
+      elem[0].innerText = hours + "h " + minutes + "m " + seconds + "s ";
 
       // If the count down is finished, write some text
       if (distance < 0) {

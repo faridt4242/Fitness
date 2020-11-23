@@ -52,6 +52,7 @@ const getProfile = async (profileId = userId) => {
             innerHTML: `${element.title}`,
             onclick: () => {
               getLeaderBoard(element.id);
+              Router("lead");
             },
           },
           el(".fas fa-play float-right", {

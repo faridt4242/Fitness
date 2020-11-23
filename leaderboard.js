@@ -43,15 +43,14 @@ const getLeaderBoard = async (chal) => {
       $("#root").prepend(dropdown);
     }
     if (!chal) {
-        if (cids.length == 0) {
-            selectChallenge(null);
-          } else {
-            selectChallenge(0);
-          }
+      if (cids.length == 0) {
+        selectChallenge(null);
+      } else {
+        selectChallenge(0);
+      }
     } else {
-        selectChallenge(cids.indexOf(chal))
+      selectChallenge(cids.indexOf(chal));
     }
-    
   });
   // var lal = getUserChallenges(currentUser)
   // lal.then(function (r) {
@@ -202,8 +201,9 @@ function uploadVideo(uid, cid) {
   myFile = [];
 }
 
-document.getElementById('inputGroupFile01').addEventListener('change', handleFileSelect, false);
-
+document
+  .getElementById("inputGroupFile01")
+  .addEventListener("change", handleFileSelect, false);
 
 // 2. getChallenge with chal.id
 // 3. assigns 0 when create challenge
