@@ -121,17 +121,49 @@
         </div>
       </div>
     </div>
-    <form class="md-form">
+    <!-- <form class="md-form">
       <div class="file-field">
         <div class="btn btn-primary btn-sm float-left">
           <span>Choose file</span>
           <input id = "file" type="file">
         </div>
-        <div class="file-path-wrapper">
-          <input class="file-path validate" type="text" placeholder="Upload your file">
+      </div>
+    </form> -->
+
+
+    <!-- Modal -->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalCenterTitle"></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body desc">
+        
+      </div>
+      <div class = "modal-body"> 
+      <input type="text" id="defaultContactFormName" class="modal-body form-control mb-4" placeholder="Score">
+      </div> 
+      <div class="input-group modal-body">
+        <div class="input-group-prepend">
+          <span class="input-group-text" id="inputGroupFileAddon01">Upload video</span>
+        </div>
+        <div class="custom-file">
+          <input type="file" class="custom-file-input" id="inputGroupFile01"
+            aria-describedby="inputGroupFileAddon01">
+          <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
         </div>
       </div>
-    </form>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" onclick = clickJoin()>Join</button>
+      </div>
+    </div>
+  </div>
+</div>
 
   </body>
     <script src="https://apis.google.com/js/platform.js" async defer></script>
@@ -165,4 +197,5 @@
     <script src="main.js"></script>
     <script src="leaderboard.js"></script>
     <script src="profile.js"></script>
+    <script src="join.js"></script>
 </html>

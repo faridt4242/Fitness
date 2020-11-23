@@ -45,6 +45,16 @@ const getUserChallenges = async (id) => {
   return joined;
 };
 
+var currentChallenge;
+
+function fillModal(titl, desc, cid) {
+  document.getElementById('exampleModalCenterTitle').innerText = titl;
+  $('#exampleModalCenter').find('.desc')[0].innerHTML = desc + '<p style = "color: red"><br> In order to join this challenge, you need to fill the form below. Please upload a video to validate your result. <br></p>';
+  currentChallenge = cid;
+}
+
+var joinChallenge;
+
 // Challenge page
 const getChallenges = async () => {
   const snapshot = await db.collection("challenges").orderBy("createdAt").get();
@@ -95,8 +105,16 @@ const getChallenges = async () => {
                   disabled: true,
                 })
               );
+              joinChallenge = challenge.id
+              console.log(challenge.id)
+              // location.href = "join.html";
+              // Router()
+              // createForm(joinChallenge)
           },
         });
+        joinButton.setAttribute('data-toggle', 'modal')
+        joinButton.setAttribute('data-target', '#exampleModalCenter')
+        joinButton.setAttribute('onclick', 'fillModal("'+ challenge.title +'","'+ challenge.description +'","' +challenge.id+ '")')
       if (
         Object.keys(ch.participants).length == 10 &&
         !challenge.participants[userId]

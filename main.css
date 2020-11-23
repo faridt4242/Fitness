@@ -133,3 +133,7 @@ body {
 #root .dropdown-menu {
   width: 97%;
 }
+
+#exampleModalCenterTitle {
+  font-weight: bold;
+}
