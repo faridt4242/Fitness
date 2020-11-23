@@ -90,7 +90,7 @@ body {
 } */
 
 #challenges .card-text {
-  color:red; 
+  color: red;
   font-weight: bold;
 }
 
@@ -99,16 +99,14 @@ body {
 }
 
 #challenges .card-title.large {
-  
   font-weight: bold;
 }
 
-
-
 #challenges .card-body {
-  background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url("img/c1.jpg");
-  z-index:;
-  
+  background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
+    url("img/c1.jpg");
+  z-index: ;
+  background-size: contain;
   background-color: #cccccc;
 }
 

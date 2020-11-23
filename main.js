@@ -35,6 +35,16 @@ function createId(length) {
   return result;
 }
 
+// function to get all challenges of user with ID
+const getUserChallenges = async (id) => {
+  var challenges = await db.collection("challenges").get();
+  var joined = [];
+  challenges.docs.map((doc) => {
+    if (doc.data().participants[id]) joined.push(doc.data());
+  });
+  return joined;
+};
+
 // Challenge page
 const getChallenges = async () => {
   const snapshot = await db.collection("challenges").orderBy("createdAt").get();
