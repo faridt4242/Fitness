@@ -118,10 +118,12 @@ const getChallenges = async () => {
         el(
           ".card-body bg-light",
           el(".card-title large", { innerText: challenge.title }, joinButton),
-          el("p.card-text", { innerText: remaining })
+          el("p.card-title", {innerHTML: challenge.description + '<br> Available for: '}),
+          el("p.card-text"),
         )
       );
       cards.appendChild(card);
+      setTimer(challenge.id, challenge.createdAt)
     }
     // setTimer(challenge.id, challenge.createdAt);
   });
@@ -171,13 +173,12 @@ const submit = () => {
   });
   const card = el(
     ".card mx-auto",
-    { id: challengeId },
+    { id: challengeId }, 
     el(
       ".card-body bg-light",
-      el(".card-title large", { innerText: formValues.title }, joinButton),
-      el("p.card-text", { innerText: getRemaining(now) })
-    )
-  );
+        el(".card-title large", { innerText: formValues.title }, joinButton),
+        el("p.card-text", { innerText: setTimer(challengeId, now) })
+    ));
   document.getElementById("challenges").prepend(card);
   document.getElementById("exampleModal").click();
   // setTimer(challengeId, now);
@@ -284,7 +285,8 @@ function setTimer(i, countDownDate) {
 
   // Update the count down every 1 second
   var x = setInterval(function () {
-    // Get today's date and time
+    var elem = $("#" + i).find(".card-text");
+    if (elem.length) {// Get today's date and time
     var now = new Date().getTime();
 
     // Find the distance between now and the count down date
@@ -299,17 +301,17 @@ function setTimer(i, countDownDate) {
     var seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
     // Display the result in the element with id="demo"
-    var elem = $("#" + i).find(".card-text")[0];
-    elem.innerText =
+    
+    elem[0].innerText =
       hours + "h " + minutes + "m " + seconds + "s " + "remaining";
 
     // If the count down is finished, write some text
     if (distance < 0) {
       clearInterval(x);
-      elem.innerText = "FINISHED";
+      elem[0].innerText = "FINISHED";
       // document.getElementById("active"+i).removeClass('active').addClass('finished')
     }
-  }, 1000);
+  }}, 1000);
 }
 
 async function onSignIn(googleUser) {
