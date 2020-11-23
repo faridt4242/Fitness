@@ -5,7 +5,7 @@ const getLeaderBoard = async () => {
   const snapshot = await db.collection("leaderboard").orderBy("score").get();
   const leaderboard = snapshot.docs.map((doc) => doc.data());
   var dropdown = `    <div class="btn-group d-flex p-2">
-    <button type="button" class="btn btn-primary dropdown-toggle " data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    <button type="button" class="btn btn-primary dropdown-toggle mx-auto " data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         Select Challenge
     </button>
     <div class="dropdown-menu">`;

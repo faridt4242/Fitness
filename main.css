@@ -64,7 +64,9 @@ body {
   height: 83vh;
   padding-bottom: 15px;
 }
-
+.dropdown-item {
+  max-width: 100% !important;
+}
 #challenges1 {
   height: 8vh;
 }
