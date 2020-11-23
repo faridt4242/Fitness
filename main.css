@@ -51,7 +51,10 @@ body {
 .btn {
   color: white !important;
 }
-
+.dropdown-menu {
+  height: 80vh;
+  overflow: auto;
+}
 .card {
   width: 95%;
   margin-bottom: 10px;
@@ -70,7 +73,9 @@ body {
 #challenges1 {
   height: 8vh;
 }
-
+.root {
+  max-width: 800px !important;
+}
 .addcard {
   padding: 0;
 }

@@ -6,7 +6,7 @@ const getProfile = async (profileId = userId) => {
   user = user.data();
   var userPage = el(
     "#challenges1",
-    { style: { height: "45vh" } },
+    { style: { height: "35vh", overflow: "auto" } },
     el(
       ".card mx-auto",
       el(
@@ -58,8 +58,7 @@ const getProfile = async (profileId = userId) => {
             style: { cursor: "pointer" },
             innerHTML: `${element.title}`,
             onclick: () => {
-                Router('lead'),
-              getLeaderBoard(element.id);
+              Router("lead"), getLeaderBoard(element.id);
               Router("lead");
             },
           },
@@ -78,7 +77,7 @@ const getProfile = async (profileId = userId) => {
     userPage,
     el(
       ".challenges",
-      { style: { height: "46vh" } },
+      { style: { height: "56vh" } },
 
       el("#challenges", previous)
     )
