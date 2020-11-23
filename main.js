@@ -303,11 +303,18 @@ async function onSignIn(googleUser) {
   console.log(userId);
   var entry = await db.collection("users").doc(userId).get();
   console.log(entry.data());
-  if (!entry.data) {
+  if (!entry.data()) {
     db.collection("users").doc(userId).set({
       nickname: profile.getName(),
       imgUrl: profile.getImageUrl(),
+      email: profile.getEmail(),
+      userId: userId,
     });
+    db.collection("leaderboard")
+      .doc(userId)
+      .set({
+        userId: { score: 0, nickname: profile.getName(), userId: userId },
+      });
   }
   setCookie("userId", userId, 160);
   document.getElementById("root").hidden = false;
@@ -330,4 +337,4 @@ function signOut() {
   Router();
 }
 
-// Router();
+Router();
