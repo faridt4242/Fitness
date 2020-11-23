@@ -106,7 +106,18 @@ body {
 
 
 #challenges .card-body {
-  background-image: url("img/c1.jpg");
-
+  background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url("img/c1.jpg");
+  z-index:;
+  
   background-color: #cccccc;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: black;
+  opacity: 0.6;
 }

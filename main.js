@@ -170,13 +170,12 @@ const submit = () => {
   });
   const card = el(
     ".card mx-auto",
-    { id: challengeId },
+    { id: challengeId }, 
     el(
       ".card-body bg-light",
-      el(".card-title large", { innerText: formValues.title }, joinButton),
-      el("p.card-text", { innerText: getRemaining(now) })
-    )
-  );
+        el(".card-title large", { innerText: formValues.title }, joinButton),
+        el("p.card-text", { innerText: setTimer(challengeId, now) })
+    ));
   document.getElementById("challenges").prepend(card);
   document.getElementById("exampleModal").click();
 };
