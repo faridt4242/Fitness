@@ -2,8 +2,8 @@ var titles = [];
 var cids = [];
 
 const getLeaderBoard = async (chal) => {
-  const snapshot = await db.collection("leaderboard").orderBy("score").get();
-  const leaderboard = snapshot.docs.map((doc) => doc.data());
+//   const snapshot = await db.collection("leaderboard").orderBy("score").get();
+//   const leaderboard = snapshot.docs.map((doc) => doc.data());
   var dropdown = `    <div class="btn-group d-flex p-2">
     <button type="button" class="btn btn-primary dropdown-toggle mx-auto " data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         Select Challenge
@@ -12,10 +12,10 @@ const getLeaderBoard = async (chal) => {
 
   cids = [];
   titles = [];
-  currentUser = 0; //TODO: remove reassign to 0 ; this was just to check
+//   currentUser = 0; //TODO: remove reassign to 0 ; this was just to check
   var challenges = db.collection("challenges").orderBy("participants");
   challenges.get().then(function (querySnapshot) {
-    console.log(querySnapshot.size);
+    // console.log(querySnapshot.size);
     querySnapshot.forEach(function (doc) {
       // console.log(doc.data().title, " => ", doc.data().participants);
       if (doc.data().participants[currentUser]) {
@@ -23,7 +23,7 @@ const getLeaderBoard = async (chal) => {
         cids.push(doc.data().id);
       }
     });
-    console.log(titles);
+    // console.log(titles);
     titles.forEach(function (title, i) {
       dropdown +=
         `<a class="dropdown-item" href="#" onclick=selectChallenge('` +
@@ -92,8 +92,9 @@ function selectChallenge(i) {
   var tbody = $("#challenges").find("tbody")[0];
   var table = $("#challenges").find("table");
   var place = $("#challenges1").find("h4")[0];
-  currentUser = 0;
   if (i !== null) {
+    //   console.log(titles, i)
+    //   console.log(cids)
     table.show();
     $(".dropdown-toggle")[0].innerText = titles[i];
     var challenge = db
@@ -111,7 +112,7 @@ function selectChallenge(i) {
         items.sort(function (first, second) {
           return second[1] - first[1];
         });
-        // console.log(items)
+        console.log(items)
         var rank;
         tbody.innerHTML = "";
 

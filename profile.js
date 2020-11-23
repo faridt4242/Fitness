@@ -58,6 +58,7 @@ const getProfile = async (profileId = userId) => {
             style: { cursor: "pointer" },
             innerHTML: `${element.title}`,
             onclick: () => {
+                Router('lead'),
               getLeaderBoard(element.id);
               Router("lead");
             },
