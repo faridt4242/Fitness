@@ -307,13 +307,20 @@ async function onSignIn(googleUser) {
   console.log("Email: " + profile.getEmail()); // This is null if the 'email' scope is not present.
   userId = profile.getId();
   console.log(userId);
-  var entry = await db.collection("users").doc(userId);
-  console.log(entry.data);
-  if (!entry.data) {
+  var entry = await db.collection("users").doc(userId).get();
+  console.log(entry.data());
+  if (!entry.data()) {
     db.collection("users").doc(userId).set({
       nickname: profile.getName(),
       imgUrl: profile.getImageUrl(),
+      email: profile.getEmail(),
+      userId: userId,
     });
+    db.collection("leaderboard")
+      .doc(userId)
+      .set({
+        userId: { score: 0, nickname: profile.getName(), userId: userId },
+      });
   }
   setCookie("userId", userId, 160);
   document.getElementById("root").hidden = false;
