@@ -6,7 +6,7 @@ const getProfile = async (profileId = userId) => {
   user = user.data();
   var userPage = el(
     "#challenges1",
-    { style: { height: "30vh" } },
+    { style: { height: "45vh" } },
     el(
       ".card mx-auto",
       el(
@@ -30,7 +30,14 @@ const getProfile = async (profileId = userId) => {
               }),
               el(".text-center large", {
                 innerText: `Email address: ${user.email}`,
-              })
+              }),
+              el(
+                ".text-center",
+                el("button.btn btn-danger", {
+                  innerText: "Sign out",
+                  onclick: () => signOut(),
+                })
+              )
             )
           )
         )
@@ -70,7 +77,7 @@ const getProfile = async (profileId = userId) => {
     userPage,
     el(
       ".challenges",
-      { style: { height: "61vh" } },
+      { style: { height: "46vh" } },
 
       el("#challenges", previous)
     )
