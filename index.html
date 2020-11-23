@@ -36,7 +36,7 @@
   </head>
   <body>
 
-    <nav class="nav__new">
+    <nav class="nav__new" id="navigation">
       <div id='chal' onclick="Router('chal')" class="nav__link nav__link--active ripple">
         <i class="material-icons nav__icon">assignment</i>
         <span class="nav__text">Challenges</span>
@@ -50,7 +50,28 @@
         <span class="nav__text">Profile</span>
       </div>
     </nav>
+    
+    <div class="container" id="info" hidden>
+      <div class="jumbotron text-center" style="margin-top: 30%;">
+        <h2 class="card-title">QuickNSweaty</h2>
+        
+        <p class="blue-text my-4 font-weight-bold">1 minute sports challenges</p>
+        <div class="row d-flex justify-content-center">
+          <div class="col-xl-7 pb-2">
+          <blockquote><p class="card-text"></p>Create your own 1 minute sports challenges and compete with friends and strangers!</blockquote>
+          </div>
+        </div>
+        <hr class="my-4">
+          <div class="col-12"><div class="g-signin2 text-center" data-width="150" data-height="50" data-onsuccess="onSignIn"></div></div>
+
+        
+      </div>
+    </div>
+    
     <div id="root">
+      
+
+
       <div id="challenges1">
       </div>
 
@@ -102,6 +123,8 @@
     </div>
 
   </body>
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <meta name="google-signin-client_id" content="1020504775390-a6a6tpuhji7hordf4c7hn21afnvnkm1i.apps.googleusercontent.com">
     <!-- FIREBASE -->
     <script src="https://www.gstatic.com/firebasejs/8.1.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.1.1/firebase-auth.js"></script>

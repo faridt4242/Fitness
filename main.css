@@ -88,3 +88,16 @@ body {
 /* .table {
   overflow: auto;
 } */
+
+#challenges .card-text {
+  color: red;
+  font-weight: bold;
+}
+
+.g-signin2 {
+  width: 100%;
+}
+
+.g-signin2 > div {
+  margin: 0 auto;
+}
