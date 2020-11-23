@@ -201,6 +201,10 @@ function uploadVideo(uid, cid) {
   myFile = [];
 }
 
-document
-  .getElementById("inputGroupFile01")
-  .addEventListener("change", handleFileSelect, false);
+document.getElementById('inputGroupFile01').addEventListener('change', handleFileSelect, false);
+
+
+// 1. Join form check fields + 
+// 2. getChallenge with chal.id
+// 3. change pictures
+// 4. leaderboard dropdown
