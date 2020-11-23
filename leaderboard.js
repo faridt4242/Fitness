@@ -142,7 +142,21 @@ const getLeaderBoard = async () => {
       }
   }
 
+var myFile;
 
-function uploadVideo() {
-
+function handleFileSelect(e) {
+    console.log('here1');
+    myFile = e.target.files; // FileList object
+    uploadVideo(currentUser, 'test')
 }
+
+function uploadVideo(uid, cid) { // save with userID + challengeID
+    var file = myFile[0];
+    var storageRef = firebase.storage().ref(uid +'/'+ cid);
+    storageRef.put(file)
+    .then((snapshot) => {
+      console.log(snapshot);
+    })
+}
+
+document.getElementById('file').addEventListener('change', handleFileSelect, false);
