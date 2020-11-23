@@ -21,22 +21,7 @@ const getRemaining = (countDownDate) => {
   if (distance < 0) {
     return false;
   }
-  // return true;
-  var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-  var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-  if (hours == 0 && minutes == 0) return false;
-  hours == 0
-    ? (hours = ``)
-    : hours == 1
-    ? (hours = `${hours} hour `)
-    : (hours = `${hours} hours `);
-  minutes == 0
-    ? (minutes = ``)
-    : minutes == 1
-    ? (minutes = `${minutes} minutes `)
-    : (minutes = `${minutes} minutes `);
-
-  return hours + minutes;
+  return true;
 };
 
 function createId(length) {
@@ -118,12 +103,14 @@ const getChallenges = async () => {
         el(
           ".card-body bg-light",
           el(".card-title large", { innerText: challenge.title }, joinButton),
-          el("p.card-title", {innerHTML: challenge.description + '<br> Available for: '}),
-          el("p.card-text"),
+          el("p.card-title", {
+            innerHTML: challenge.description + "<br> Available for: ",
+          }),
+          el("p.card-text")
         )
       );
       cards.appendChild(card);
-      setTimer(challenge.id, challenge.createdAt)
+      setTimer(challenge.id, challenge.createdAt);
     }
     // setTimer(challenge.id, challenge.createdAt);
   });
@@ -173,12 +160,13 @@ const submit = () => {
   });
   const card = el(
     ".card mx-auto",
-    { id: challengeId }, 
+    { id: challengeId },
     el(
       ".card-body bg-light",
-        el(".card-title large", { innerText: formValues.title }, joinButton),
-        el("p.card-text", { innerText: setTimer(challengeId, now) })
-    ));
+      el(".card-title large", { innerText: formValues.title }, joinButton),
+      el("p.card-text", { innerText: setTimer(challengeId, now) })
+    )
+  );
   document.getElementById("challenges").prepend(card);
   document.getElementById("exampleModal").click();
   // setTimer(challengeId, now);
@@ -265,14 +253,6 @@ const Router = (ref) => {
   [].forEach.call(elems, function (el) {
     el.classList.remove("nav__link--active");
   });
-  switch (ref) {
-    case "lead":
-      getLeaderBoard();
-      break;
-    case "chal":
-      getChallenges();
-      break;
-  }
   document.getElementById(ref).classList.add("nav__link--active");
   //   history.pushState({}, ref, ref);
 };
@@ -286,32 +266,34 @@ function setTimer(i, countDownDate) {
   // Update the count down every 1 second
   var x = setInterval(function () {
     var elem = $("#" + i).find(".card-text");
-    if (elem.length) {// Get today's date and time
-    var now = new Date().getTime();
+    if (elem.length) {
+      // Get today's date and time
+      var now = new Date().getTime();
 
-    // Find the distance between now and the count down date
-    var distance = countDownDate - now + 86400000;
+      // Find the distance between now and the count down date
+      var distance = countDownDate - now + 86400000;
 
-    // Time calculations for days, hours, minutes and seconds
-    var days = Math.floor(distance / (1000 * 60 * 60 * 24));
-    var hours = Math.floor(
-      (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
-    );
-    var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-    var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+      // Time calculations for days, hours, minutes and seconds
+      var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      var hours = Math.floor(
+        (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+      );
+      var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      var seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-    // Display the result in the element with id="demo"
-    
-    elem[0].innerText =
-      hours + "h " + minutes + "m " + seconds + "s " + "remaining";
+      // Display the result in the element with id="demo"
 
-    // If the count down is finished, write some text
-    if (distance < 0) {
-      clearInterval(x);
-      elem[0].innerText = "FINISHED";
-      // document.getElementById("active"+i).removeClass('active').addClass('finished')
+      elem[0].innerText =
+        hours + "h " + minutes + "m " + seconds + "s " + "remaining";
+
+      // If the count down is finished, write some text
+      if (distance < 0) {
+        clearInterval(x);
+        elem[0].innerText = "FINISHED";
+        // document.getElementById("active"+i).removeClass('active').addClass('finished')
+      }
     }
-  }}, 1000);
+  }, 1000);
 }
 
 async function onSignIn(googleUser) {
@@ -350,3 +332,5 @@ function signOut() {
   userId = "";
   Router();
 }
+
+Router();

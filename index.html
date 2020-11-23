@@ -37,11 +37,11 @@
   <body>
 
     <nav class="nav__new" id="navigation" hidden>
-      <div id='chal' onclick="Router('chal')" class="nav__link nav__link--active ripple">
+      <div id='chal' onclick="Router('chal'); getChallenges()" class="nav__link nav__link--active ripple">
         <i class="material-icons nav__icon">assignment</i>
         <span class="nav__text">Challenges</span>
       </div>
-      <div id='lead' onclick="Router('lead')" class="nav__link ripple">
+      <div id='lead' onclick="Router('lead'); getLeaderBoard()" class="nav__link ripple">
         <span class="material-icons iconify" data-icon="mdi-trophy" data-inline="false"></span>
         <span class="nav__text">Leaderboard</span>
       </div>
