@@ -65,7 +65,9 @@ const getProfile = async (profileId = userId) => {
           el(".fas fa-play float-right", {
             style: { margin: "5px", cursor: "pointer" },
             onclick: () => {
-              window.open(element.participants[profileId].videoUrl);
+              window.open(
+                `https://firebasestorage.googleapis.com/v0/b/fitmeasure-ac726.appspot.com/o/${profileId}%2F${element.id}?alt=media`
+              );
             },
           })
         )

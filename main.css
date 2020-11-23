@@ -52,7 +52,7 @@ body {
   color: white !important;
 }
 .dropdown-menu {
-  height: 80vh;
+  max-height: 80vh;
   overflow: auto;
 }
 .card {
