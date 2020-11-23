@@ -198,6 +198,7 @@ function uploadVideo(uid, cid) {
   storageRef.put(file).then((snapshot) => {
     console.log(snapshot);
   });
+  myFile = [];
 }
 
 document
