@@ -88,25 +88,6 @@ const getChallenges = async () => {
         joinButton = el("button.btn btn-primary float-right", {
           innerText: "Join",
           onclick: () => {
-            db.collection("challenges")
-              .doc(challenge.id)
-              .update({
-                participants: {
-                  ...challenge.participants,
-                  [userId]: { score: 0 },
-                },
-              });
-            document
-              .getElementById(challenge.id)
-              .children[0].children[0].children[0].remove();
-            document
-              .getElementById(challenge.id)
-              .children[0].children[0].appendChild(
-                el("button.btn btn-success float-right", {
-                  innerText: "Joined",
-                  disabled: true,
-                })
-              );
             joinChallenge = challenge.id;
             console.log(challenge.id);
             // location.href = "join.html";
@@ -142,8 +123,7 @@ const getChallenges = async () => {
           ".card-body bg-light",
           el(".card-title large", { innerText: challenge.title }, joinButton),
           el("p.card-title", {
-            innerHTML: challenge.description + "<br> Join the challenge and share your progress!",
-            // innerHTML: challenge.description + "<br> Available for: ",
+            innerHTML: challenge.description + "<br> Available for: ",
           }),
           el("p.card-text")
         )
@@ -197,20 +177,34 @@ const submit = () => {
       id: challengeId,
       createdAt: now,
     });
-  const joinButton = el("button.btn btn-success float-right", {
-    innerText: "Joined",
-    disabled: true,
+  const joinButton = el("button.btn btn-primary float-right", {
+    innerText: "Join",
+    onclick: () => {
+      joinChallenge = challengeId;
+      console.log(challenge.id);
+      // location.href = "join.html";
+      // Router()
+      // createForm(joinChallenge)
+    },
   });
+  joinButton.setAttribute("data-toggle", "modal");
+  joinButton.setAttribute("data-target", "#exampleModalCenter");
+  joinButton.setAttribute(
+    "onclick",
+    'fillModal("' +
+      formValues.title +
+      '","' +
+      formValues.description +
+      '","' +
+      challengeId +
+      '")'
+  );
   const card = el(
     ".card mx-auto",
     { id: challengeId },
     el(
       ".card-body bg-light",
       el(".card-title large", { innerText: formValues.title }, joinButton),
-      el("p.card-title", {
-        innerHTML: challenge.description + "<br> Join the challenge and share your progress!",
-        // innerHTML: challenge.description + "<br> Available for: ",
-      }),
       el("p.card-text", { innerText: setTimer(challengeId, now) })
     )
   );
