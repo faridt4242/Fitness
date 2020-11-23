@@ -21,22 +21,22 @@ const getRemaining = (countDownDate) => {
   if (distance < 0) {
     return false;
   }
-  return true;
-  // var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-  // var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-  // if (hours == 0 && minutes == 0) return false;
-  // hours == 0
-  //   ? (hours = ``)
-  //   : hours == 1
-  //   ? (hours = `${hours} hour `)
-  //   : (hours = `${hours} hours `);
-  // minutes == 0
-  //   ? (minutes = ``)
-  //   : minutes == 1
-  //   ? (minutes = `${minutes} minutes `)
-  //   : (minutes = `${minutes} minutes `);
+  // return true;
+  var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+  if (hours == 0 && minutes == 0) return false;
+  hours == 0
+    ? (hours = ``)
+    : hours == 1
+    ? (hours = `${hours} hour `)
+    : (hours = `${hours} hours `);
+  minutes == 0
+    ? (minutes = ``)
+    : minutes == 1
+    ? (minutes = `${minutes} minutes `)
+    : (minutes = `${minutes} minutes `);
 
-  // return hours + minutes;
+  return hours + minutes;
 };
 
 function createId(length) {
@@ -125,7 +125,7 @@ const getChallenges = async () => {
       cards.appendChild(card);
       setTimer(challenge.id, challenge.createdAt)
     }
-    setTimer(challenge.id, challenge.createdAt);
+    // setTimer(challenge.id, challenge.createdAt);
   });
 
   setChildren(document.getElementById("challenges"), cards);
@@ -181,6 +181,7 @@ const submit = () => {
     ));
   document.getElementById("challenges").prepend(card);
   document.getElementById("exampleModal").click();
+  // setTimer(challengeId, now);
 };
 
 const getLeaderBoard = async () => {
@@ -257,7 +258,6 @@ const loginScreen = () => {
 };
 
 const Router = (ref) => {
-  console.log(getCookie("userId"));
   if (!getCookie("userId")) return loginScreen();
   if (!ref) ref = "chal";
 
@@ -275,7 +275,6 @@ const Router = (ref) => {
   document.getElementById(ref).classList.add("nav__link--active");
   //   history.pushState({}, ref, ref);
 };
-Router();
 
 //setTimer for challenges
 
@@ -314,15 +313,17 @@ function setTimer(i, countDownDate) {
   }}, 1000);
 }
 
-function onSignIn(googleUser) {
+async function onSignIn(googleUser) {
   var profile = googleUser.getBasicProfile();
   console.log("ID: " + profile.getId()); // Do not send to your backend! Use an ID token instead.
   console.log("Name: " + profile.getName());
   console.log("Image URL: " + profile.getImageUrl());
   console.log("Email: " + profile.getEmail()); // This is null if the 'email' scope is not present.
   userId = profile.getId();
-  if (!db.collection("users").doc(userId)) {
-    console.log('here')
+  console.log(userId);
+  var entry = await db.collection("users").doc(userId);
+  console.log(entry.data);
+  if (!entry.data) {
     db.collection("users").doc(userId).set({
       name: profile.getName(),
       imgUrl: profile.getImageUrl(),
