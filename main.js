@@ -142,7 +142,8 @@ const getChallenges = async () => {
           ".card-body bg-light",
           el(".card-title large", { innerText: challenge.title }, joinButton),
           el("p.card-title", {
-            innerHTML: challenge.description + "<br> Available for: ",
+            innerHTML: challenge.description + "<br> Join the challenge and share your progress!",
+            // innerHTML: challenge.description + "<br> Available for: ",
           }),
           el("p.card-text")
         )
@@ -206,6 +207,10 @@ const submit = () => {
     el(
       ".card-body bg-light",
       el(".card-title large", { innerText: formValues.title }, joinButton),
+      el("p.card-title", {
+        innerHTML: challenge.description + "<br> Join the challenge and share your progress!",
+        // innerHTML: challenge.description + "<br> Available for: ",
+      }),
       el("p.card-text", { innerText: setTimer(challengeId, now) })
     )
   );
