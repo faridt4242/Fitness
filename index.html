@@ -45,7 +45,7 @@
         <span class="material-icons iconify" data-icon="mdi-trophy" data-inline="false"></span>
         <span class="nav__text">Leaderboard</span>
       </div>
-      <div onclick="Router('profile')" id='profile' class="nav__link ripple">
+      <div onclick="Router('profile'); getProfile()" id='profile' class="nav__link ripple">
         <i class="material-icons nav__icon">person</i>
         <span class="nav__text">Profile</span>
       </div>
@@ -151,4 +151,5 @@
     <script src='https://kit.fontawesome.com/a076d05399.js'></script>
     <script>$(document).ready(function() { $('body').bootstrapMaterialDesign(); });</script>
     <script src="main.js"></script>
+    <script src="profile.js"></script>
 </html>
