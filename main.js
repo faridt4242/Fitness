@@ -49,7 +49,7 @@ const getUserChallenges = async (id) => {
 const getChallenges = async () => {
   const snapshot = await db.collection("challenges").orderBy("createdAt").get();
   const challenges = snapshot.docs.map((doc) => doc.data());
-  if (!($('#root').find('.btn-group')[0])) {
+  if ($('#root').find('.btn-group')[0]) {
     $('#root').find('.btn-group')[0].remove()
   }
   var create = el(

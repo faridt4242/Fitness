@@ -143,6 +143,6 @@ const getLeaderBoard = async () => {
   }
 
 
-uploadVideo() {
-    
+function uploadVideo() {
+
 }
