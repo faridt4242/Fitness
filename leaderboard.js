@@ -1,50 +1,58 @@
+var titles = []
+var cids = []
+
 const getLeaderBoard = async () => {
     const snapshot = await db.collection("leaderboard").orderBy("score").get();
     const leaderboard = snapshot.docs.map((doc) => doc.data());
-    window.leaderboard = leaderboard;
-var dropdown = `    <div class="btn-group d-flex p-2">
-  <button type="button" class="btn btn-primary dropdown-toggle " data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-    Select Challenge
-  </button>
-  <div class="dropdown-menu">`
-    
-
-// <a class="dropdown-item" href="#">Action</a>
-//     <a class="dropdown-item" href="#">Another action</a>
-//     <a class="dropdown-item" href="#">Something else here</a>
-//     <div class="dropdown-divider"></div>
-    // <a class="dropdown-item" href="#">Separated link</a>
-userId = 0
-var titles = []
+    var dropdown = `    <div class="btn-group d-flex p-2">
+    <button type="button" class="btn btn-primary dropdown-toggle " data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        Select Challenge
+    </button>
+    <div class="dropdown-menu">`
+        
+    cids = []
+    titles = []
+    currentUser = 0 //TODO: remove reassign to 0 ; this was just to check
     var challenges = db.collection("challenges").orderBy('participants')
-    // where('participants', '==', userId)
-    // .orderBy('participants').where('userId', '==', userId)
     challenges.get()
     .then(function(querySnapshot) {
         console.log(querySnapshot.size)
         querySnapshot.forEach(function(doc) {
-            // doc.data() is never undefined for query doc snapshots
-            console.log(doc.data().title, " => ", doc.data().participants);
-            if (doc.data().participants[userId]) {
+            // console.log(doc.data().title, " => ", doc.data().participants);
+            if (doc.data().participants[currentUser]) {
                 titles.push(doc.data().title)
+                cids.push(doc.data().id)
             } 
         });
-        
-        titles.forEach(function(title) {
-            dropdown += `<a class="dropdown-item" href="#">` +title+ `</a>`
-            console.log(dropdown)
+        console.log(titles)
+        titles.forEach(function(title, i) {
+            dropdown += `<a class="dropdown-item" href="#" onclick=selectChallenge('`+i+`')>` +title+ `</a>`
         })
         dropdown += 
-                `</div>
+                `<div class="dropdown-divider"></div>
+                <p class="dropdown-item" style = "color: #D3d3d3"> You participated in ` +titles.length+ ` challenges 
+                </div>
             </div> `
         if (!($('#root').find('.btn-group')[0])) {
             $('#root').prepend(dropdown)
         }
-    }).catch(function(error) {
-        console.log("Error getting documents: ", error);
-    });
+        if (cids.length == 0) {
+            selectChallenge(null)
+        } else {
+            selectChallenge(0)
+        }
+        
+        
+    })
+    // .catch(function(error) {
+    //     console.log("Error getting documents: ", error);
+    // });
     
-    // console.log(challenges.data)
+    // var lal = getUserChallenges(currentUser)
+    // lal.then(function (r) {
+    //     console.log(r[0])
+    // })
+
     var tbody = el("tbody");
     var table = el(
       "table.table text-center text-nowrap",
@@ -61,31 +69,78 @@ var titles = []
     );
     var i = 0;
     var rank;
-    // leaderboard.reverse().forEach((user) => {
-    //   i += 1;
-    //   var className = "";
-    //   if (user.userId == userId) {
-    //     className = "#me";
-    //     rank = i;
-    //   }
-    //   tbody.appendChild(
-    //     el(
-    //       `tr${className}`,
-    //       el("th", { scope: "row", innerText: i }),
-    //       el("td", { innerText: user.nickname }),
-    //       el("td", { innerText: user.score })
-    //     )
-    //   );
-    // });
+
     setChildren(
       document.getElementById("challenges1"),
       el("h4.text-center", {
         style: { paddingTop: "3vh", marginBottom: "0" },
-        innerText: `Your rank is ${rank}`,
       })
     );
     // document.getElementById("challenges").appendChild(dropdown)
     setChildren(document.getElementById("challenges"), table);
     
   };
+
+  function selectChallenge(i) {
+    var tbody = $('#challenges').find('tbody')[0];
+    var table = $('#challenges').find('table');
+    var place = $('#challenges1').find('h4')[0];
+    currentUser = 0
+      if (i !== null) {
+          table.show()
+        $('.dropdown-toggle').innerText = titles[i]
+        var challenge = db.collection('challenges').doc(cids[i]).get().then(function(c) {
+            var participants = c.data().participants
+            // Create items array
+            var items = Object.keys(participants).map(function(key) {
+                return [key, participants[key]['score']];
+            });
+            
+            // Sort the array based on the second element
+            items.sort(function(first, second) {
+                return second[1] - first[1];
+            });
+            // console.log(items)
+            var rank;
+            tbody.innerHTML = ""
+            
+            var i = 0
+            const forLoop = async _ => {
+                for (var user in items) {
+                    user = items[user]
+                    var curUser = user[0] 
+                    var curScore = user[1]
+                    // console.log(user[0], user[1]);
+                    const snapshot = await db.collection('users').doc(user[0]).get();
+                    const nick = snapshot.data().nickname
+                    i += 1
+                    var className = "";
+                    if (curUser == currentUser) {
+                        className = "#me";
+                        rank = i;
+                    }
+                    tbody.appendChild(
+                        el(
+                        `tr${className}`,
+                        el("th", { scope: "row", innerText: i }),
+                        el("td", { innerText: nick }),
+                        el("td", { innerText: curScore })
+                        )
+                    );
+                }
+              
+                place.innerHTML = `<strong> Your rank is ${rank} </strong>`
+              }
+
+            forLoop()
+            
+            
+    })
+      } else {
+        table.hide()
+        place.innerHTML = `<p>You have not participated in any challenge yet. Click <a onclick="Router('chal'); getChallenges()">here</a> to see available challenges</p>`
+      }
+  }
+
+
   
