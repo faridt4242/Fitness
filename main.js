@@ -12,7 +12,7 @@ var firebaseConfig = {
 
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
-const userId = "1221";
+var userId;
 const getRemaining = (countDownDate) => {
   // Get today's date and time
   var now = new Date().getTime();
@@ -21,21 +21,22 @@ const getRemaining = (countDownDate) => {
   if (distance < 0) {
     return false;
   }
-  var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-  var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-  if (hours == 0 && minutes == 0) return false;
-  hours == 0
-    ? (hours = ``)
-    : hours == 1
-    ? (hours = `${hours} hour `)
-    : (hours = `${hours} hours `);
-  minutes == 0
-    ? (minutes = ``)
-    : minutes == 1
-    ? (minutes = `${minutes} minutes `)
-    : (minutes = `${minutes} minutes `);
+  return true;
+  // var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  // var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+  // if (hours == 0 && minutes == 0) return false;
+  // hours == 0
+  //   ? (hours = ``)
+  //   : hours == 1
+  //   ? (hours = `${hours} hour `)
+  //   : (hours = `${hours} hours `);
+  // minutes == 0
+  //   ? (minutes = ``)
+  //   : minutes == 1
+  //   ? (minutes = `${minutes} minutes `)
+  //   : (minutes = `${minutes} minutes `);
 
-  return hours + minutes;
+  // return hours + minutes;
 };
 
 function createId(length) {
@@ -118,16 +119,18 @@ const getChallenges = async () => {
           ".card-body bg-light",
           el(".card-title large", { innerText: challenge.title }, joinButton),
           el("p.card-title", {innerHTML: challenge.description + '<br> Available for: '}),
-          el("p.card-text", { innerText: remaining }),
+          el("p.card-text"),
         )
       );
       cards.appendChild(card);
       setTimer(challenge.id, challenge.createdAt)
     }
+    setTimer(challenge.id, challenge.createdAt);
   });
+
   setChildren(document.getElementById("challenges"), cards);
 };
-getChallenges();
+// getChallenges();
 
 function checkforms() {
   // get all the inputs within the submitted form
@@ -247,17 +250,17 @@ function setCookie(name, value, days) {
   document.cookie = name + "=" + (value || "") + expires + "; path=/";
 }
 
-const loginScreen = () => {};
+const loginScreen = () => {
+  document.getElementById("root").hidden = true;
+  document.getElementById("navigation").hidden = true;
+  document.getElementById("info").hidden = false;
+};
 
 const Router = (ref) => {
-  //   if (getCookie("userId")) return loginScreen();
-  if (!ref) {
-    const path = window.location.pathname;
-    var ref = path.replace("/", "");
-    if (!ref) {
-      ref = "chal";
-    }
-  }
+  console.log(getCookie("userId"));
+  if (!getCookie("userId")) return loginScreen();
+  if (!ref) ref = "chal";
+
   var elems = document.querySelectorAll(".nav__link--active");
   [].forEach.call(elems, function (el) {
     el.classList.remove("nav__link--active");
@@ -272,7 +275,7 @@ const Router = (ref) => {
   document.getElementById(ref).classList.add("nav__link--active");
   //   history.pushState({}, ref, ref);
 };
-
+Router();
 
 //setTimer for challenges
 
@@ -281,31 +284,67 @@ function setTimer(i, countDownDate) {
   // var countDownDate = new Date("Jan 5, 2021 15:37:25").getTime();
 
   // Update the count down every 1 second
-  var x = setInterval(function() {
+  var x = setInterval(function () {
+    var elem = $("#" + i).find(".card-text");
+    if (elem.length) {// Get today's date and time
+    var now = new Date().getTime();
 
-  // Get today's date and time
-  var now = new Date().getTime();
+    // Find the distance between now and the count down date
+    var distance = countDownDate - now + 86400000;
 
-  // Find the distance between now and the count down date
-  var distance = countDownDate - now + 86400000;
+    // Time calculations for days, hours, minutes and seconds
+    var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+    var hours = Math.floor(
+      (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+    );
+    var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    var seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-  // Time calculations for days, hours, minutes and seconds
-  var days = Math.floor(distance / (1000 * 60 * 60 * 24));
-  var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-  var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-  var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+    // Display the result in the element with id="demo"
+    
+    elem[0].innerText =
+      hours + "h " + minutes + "m " + seconds + "s " + "remaining";
 
-  // Display the result in the element with id="demo"
-  var elem = $('#'+i).find('.card-text')[0]
-  elem.innerText = "Remaining time: " + hours + "h " + minutes + "m " + seconds + "s ";
-
-  // If the count down is finished, write some text
-  if (distance < 0) {
+    // If the count down is finished, write some text
+    if (distance < 0) {
       clearInterval(x);
-      elem.innerText = "FINISHED";
+      elem[0].innerText = "FINISHED";
       // document.getElementById("active"+i).removeClass('active').addClass('finished')
-  }
-  }, 1000);
+    }
+  }}, 1000);
 }
 
+function onSignIn(googleUser) {
+  var profile = googleUser.getBasicProfile();
+  console.log("ID: " + profile.getId()); // Do not send to your backend! Use an ID token instead.
+  console.log("Name: " + profile.getName());
+  console.log("Image URL: " + profile.getImageUrl());
+  console.log("Email: " + profile.getEmail()); // This is null if the 'email' scope is not present.
+  userId = profile.getId();
+  if (!db.collection("users").doc(userId)) {
+    console.log('here')
+    db.collection("users").doc(userId).set({
+      name: profile.getName(),
+      imgUrl: profile.getImageUrl(),
+    });
+  }
+  setCookie("userId", userId, 160);
+  document.getElementById("root").hidden = false;
+  document.getElementById("navigation").hidden = false;
+  document.getElementById("info").hidden = true;
+  getChallenges();
+}
 
+function eraseCookie(name) {
+  document.cookie = name + "=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;";
+}
+
+function signOut() {
+  var auth2 = gapi.auth2.getAuthInstance();
+  auth2.signOut().then(function () {
+    console.log("User signed out.");
+  });
+  eraseCookie("userId");
+  userId = "";
+  Router();
+}

@@ -120,4 +120,14 @@ body {
   height: 100%;
   background-color: black;
   opacity: 0.6;
+  color: red;
+  font-weight: bold;
+}
+
+.g-signin2 {
+  width: 100%;
+}
+
+.g-signin2 > div {
+  margin: 0 auto;
 }
