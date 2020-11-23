@@ -49,6 +49,7 @@ const getUserChallenges = async (id) => {
 const getChallenges = async () => {
   const snapshot = await db.collection("challenges").orderBy("createdAt").get();
   const challenges = snapshot.docs.map((doc) => doc.data());
+
   var create = el(
     ".text-center",
     { style: { marginTop: "1vh" } },
@@ -62,7 +63,6 @@ const getChallenges = async () => {
     })
   );
   var cards = el("");
-  setChildren(document.getElementById("challenges1"), create);
   challenges.reverse().forEach((challenge) => {
     const remaining = getRemaining(challenge.createdAt);
     joinButton = el("button.btn btn-success float-right", {
@@ -124,7 +124,11 @@ const getChallenges = async () => {
     // setTimer(challenge.id, challenge.createdAt);
   });
 
-  var a = setChildren(document.getElementById("challenges"), cards);
+  var a = setChildren(
+    document.getElementById("root"),
+    el("#challenges1", create),
+    el(".challenges", el("#challenges", cards))
+  );
   document.getElementById("navigation").hidden = false;
 };
 
@@ -257,11 +261,7 @@ const loginScreen = () => {
 const Router = (ref) => {
   if (!getCookie("userId")) return loginScreen();
   if (!ref) ref = "chal";
-  if (ref !== 'lead') {
-    if ($('#root').find('.btn-group')[0]) {
-      $('#root').find('.btn-group')[0].remove()
-    }
-  }
+
   var elems = document.querySelectorAll(".nav__link--active");
   [].forEach.call(elems, function (el) {
     el.classList.remove("nav__link--active");
@@ -313,15 +313,15 @@ var currentUser;
 
 async function onSignIn(googleUser) {
   var profile = googleUser.getBasicProfile();
-  // console.log("ID: " + profile.getId()); // Do not send to your backend! Use an ID token instead.
+  console.log("ID: " + profile.getId()); // Do not send to your backend! Use an ID token instead.
   currentUser = profile.getId();
-  // console.log("Name: " + profile.getName());
-  // console.log("Image URL: " + profile.getImageUrl());
-  // console.log("Email: " + profile.getEmail()); // This is null if the 'email' scope is not present.
+  console.log("Name: " + profile.getName());
+  console.log("Image URL: " + profile.getImageUrl());
+  console.log("Email: " + profile.getEmail()); // This is null if the 'email' scope is not present.
   userId = profile.getId();
-  // console.log(userId);
+  console.log(userId);
   var entry = await db.collection("users").doc(userId).get();
-  // console.log(entry.data());
+  console.log(entry.data());
   if (!entry.data()) {
     db.collection("users").doc(userId).set({
       nickname: profile.getName(),

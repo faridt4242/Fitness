@@ -4,8 +4,9 @@ const getProfile = async (profileId = userId) => {
   console.log(joined);
   console.log(user.data());
   user = user.data();
-  setChildren(
-    document.getElementById("challenges1"),
+  var userPage = el(
+    "#challenges1",
+    { style: { height: "30vh" } },
     el(
       ".card mx-auto",
       el(
@@ -36,5 +37,41 @@ const getProfile = async (profileId = userId) => {
       )
     )
   );
-  setChildren(document.getElementById("challenges"));
+
+  var previous = el("ul.list-group mx-auto", { style: { width: "95%" } });
+  joined.forEach((element) => {
+    previous.appendChild(
+      el(
+        "li.list-group-item",
+        el(".md-v-line"),
+
+        el(
+          "",
+          {
+            style: { cursor: "pointer" },
+            innerHTML: `${element.title}`,
+            onclick: () => {
+              getLeaderBoard(element.id);
+            },
+          },
+          el(".fas fa-play float-right", {
+            style: { margin: "5px", cursor: "pointer" },
+            onclick: () => {
+              window.open(element.participants[profileId].videoUrl);
+            },
+          })
+        )
+      )
+    );
+  });
+  setChildren(
+    document.getElementById("root"),
+    userPage,
+    el(
+      ".challenges",
+      { style: { height: "61vh" } },
+
+      el("#challenges", previous)
+    )
+  );
 };
