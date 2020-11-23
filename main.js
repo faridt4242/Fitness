@@ -308,7 +308,7 @@ async function onSignIn(googleUser) {
   console.log(entry.data);
   if (!entry.data) {
     db.collection("users").doc(userId).set({
-      name: profile.getName(),
+      nickname: profile.getName(),
       imgUrl: profile.getImageUrl(),
     });
   }
