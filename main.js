@@ -53,15 +53,11 @@ function createId(length) {
 const getChallenges = async () => {
   const snapshot = await db.collection("challenges").orderBy("createdAt").get();
   const challenges = snapshot.docs.map((doc) => doc.data());
-  const createButton = el("btn.btn btn-primary float-right", {
-    style: {},
-    innerHTML: `<i class="fas fa-plus" style="margin-right: 5px"></i>Create`,
-  });
 
   var create = el(
     ".text-center",
     { style: { marginTop: "1vh" } },
-    el("button.btn btn-primary", {
+    el("button.btn btn-info", {
       innerHTML: `<i class="fas fa-plus" style="margin-right: 5px"></i>Create a challenge`,
       "data-toggle": "modal",
       "data-target": "#exampleModal",
@@ -129,7 +125,7 @@ const getChallenges = async () => {
   });
   setChildren(document.getElementById("challenges"), cards);
 };
-// getChallenges();
+getChallenges();
 
 function checkforms() {
   // get all the inputs within the submitted form
@@ -207,7 +203,7 @@ const getLeaderBoard = async () => {
     i += 1;
     var className = "";
     if (user.userId == userId) {
-      className = ".me";
+      className = "#me";
       rank = i;
     }
     tbody.appendChild(
@@ -228,7 +224,6 @@ const getLeaderBoard = async () => {
   );
   setChildren(document.getElementById("challenges"), table);
 };
-getChallenges();
 
 function getCookie(name) {
   var nameEQ = name + "=";

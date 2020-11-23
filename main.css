@@ -81,6 +81,7 @@ body {
   border: 0 !important;
 }
 
+<<<<<<< HEAD
 .me {
   background-color: rgb(71, 71, 71);
   color: white;
@@ -88,3 +89,12 @@ body {
 .table {
   overflow: auto;
 }
+=======
+#me {
+  background-color: rgb(71, 71, 71);
+  color: white;
+}
+/* .table {
+  overflow: auto;
+} */
+>>>>>>> 4290c5e841c6f4b378c97cfa854b790fbf29dd68
