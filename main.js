@@ -35,6 +35,16 @@ function createId(length) {
   return result;
 }
 
+// function to get all challenges of user with ID
+const getUserChallenges = async (id) => {
+  var challenges = await db.collection("challenges").get();
+  var joined = [];
+  challenges.docs.map((doc) => {
+    if (doc.data().participants[id]) joined.push(doc.data());
+  });
+  return joined;
+};
+
 // Challenge page
 const getChallenges = async () => {
   const snapshot = await db.collection("challenges").orderBy("createdAt").get();
@@ -172,51 +182,51 @@ const submit = () => {
   // setTimer(challengeId, now);
 };
 
-// const getLeaderBoard = async () => {
-//   const snapshot = await db.collection("leaderboard").orderBy("score").get();
-//   const leaderboard = snapshot.docs.map((doc) => doc.data());
-//   window.leaderboard = leaderboard;
-//   var tbody = el("tbody");
-//   var table = el(
-//     "table.table text-center text-nowrap",
-//     el(
-//       "thead",
-//       el(
-//         "tr",
-//         el("th", { scope: "col", innerText: "Place" }),
-//         el("th", { scope: "col", innerText: "Nickname" }),
-//         el("th", { scope: "col", innerText: "Overall Score" })
-//       )
-//     ),
-//     tbody
-//   );
-//   var i = 0;
-//   var rank;
-//   leaderboard.reverse().forEach((user) => {
-//     i += 1;
-//     var className = "";
-//     if (user.userId == userId) {
-//       className = "#me";
-//       rank = i;
-//     }
-//     tbody.appendChild(
-//       el(
-//         `tr${className}`,
-//         el("th", { scope: "row", innerText: i }),
-//         el("td", { innerText: user.nickname }),
-//         el("td", { innerText: user.score })
-//       )
-//     );
-//   });
-//   setChildren(
-//     document.getElementById("challenges1"),
-//     el("h4.text-center", {
-//       style: { paddingTop: "3vh", marginBottom: "0" },
-//       innerText: `Your rank is ${rank}`,
-//     })
-//   );
-//   setChildren(document.getElementById("challenges"), table);
-// };
+const getLeaderBoard = async () => {
+  const snapshot = await db.collection("leaderboard").orderBy("score").get();
+  const leaderboard = snapshot.docs.map((doc) => doc.data());
+  window.leaderboard = leaderboard;
+  var tbody = el("tbody");
+  var table = el(
+    "table.table text-center text-nowrap",
+    el(
+      "thead",
+      el(
+        "tr",
+        el("th", { scope: "col", innerText: "Place" }),
+        el("th", { scope: "col", innerText: "Nickname" }),
+        el("th", { scope: "col", innerText: "Overall Score" })
+      )
+    ),
+    tbody
+  );
+  var i = 0;
+  var rank;
+  leaderboard.reverse().forEach((user) => {
+    i += 1;
+    var className = "";
+    if (user.userId == userId) {
+      className = "#me";
+      rank = i;
+    }
+    tbody.appendChild(
+      el(
+        `tr${className}`,
+        el("th", { scope: "row", innerText: i }),
+        el("td", { innerText: user.nickname }),
+        el("td", { innerText: user.score })
+      )
+    );
+  });
+  setChildren(
+    document.getElementById("challenges1"),
+    el("h4.text-center", {
+      style: { paddingTop: "3vh", marginBottom: "0" },
+      innerText: `Your rank is ${rank}`,
+    })
+  );
+  setChildren(document.getElementById("challenges"), table);
+};
 
 function getCookie(name) {
   var nameEQ = name + "=";
