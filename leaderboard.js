@@ -152,32 +152,41 @@ function selectChallenge(i) {
 }
 
 function clickJoin() {
-    document.getElementById("exampleModalCenter").click();
-    var score = $('#defaultContactFormName')[0].value
-    $('#defaultContactFormName')[0].value = ''
-    var chal = db.collection('challenges').doc(currentChallenge.toString());
-    chal.get().then(function (doc) {
-        if (doc.exists) {
-          chal.get().then((snapshot) => {
-            tempParticipants = snapshot.data().participants
-            tempParticipants[currentUser] = {'score': score};
-            chal.update({
-              participants: tempParticipants,
-            })
-          })
-        } else {
-        alert('challenge is no longer available')
-        }
-    })
-    uploadVideo(currentUser, currentChallenge)
+  document.getElementById("exampleModalCenter").click();
+  var score = $("#defaultContactFormName")[0].value;
+  $("#defaultContactFormName")[0].value = "";
+  var chal = db.collection("challenges").doc(currentChallenge.toString());
+  chal.get().then(function (doc) {
+    if (doc.exists) {
+      chal.get().then((snapshot) => {
+        tempParticipants = snapshot.data().participants;
+        tempParticipants[currentUser] = { score: score };
+        chal.update({
+          participants: tempParticipants,
+        });
+      });
+      document
+        .getElementById(chal.id)
+        .children[0].children[0].children[0].remove();
+      document.getElementById(chal.id).children[0].children[0].appendChild(
+        el("button.btn btn-success float-right", {
+          innerText: "Joined",
+          disabled: true,
+        })
+      );
+    } else {
+      alert("challenge is no longer available");
+    }
+  });
+  uploadVideo(currentUser, currentChallenge);
 }
 
 var myFile;
 
 function handleFileSelect(e) {
-    console.log('here1');
-    myFile = e.target.files; // FileList object
-    // uploadVideo(currentUser, currentChallenge)
+  console.log("here1");
+  myFile = e.target.files; // FileList object
+  // uploadVideo(currentUser, currentChallenge)
 }
 
 function uploadVideo(uid, cid) {
@@ -189,4 +198,6 @@ function uploadVideo(uid, cid) {
   });
 }
 
-document.getElementById('inputGroupFile01').addEventListener('change', handleFileSelect, false);
+document
+  .getElementById("inputGroupFile01")
+  .addEventListener("change", handleFileSelect, false);
