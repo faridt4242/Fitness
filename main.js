@@ -126,9 +126,9 @@ const getChallenges = async () => {
     // setTimer(challenge.id, challenge.createdAt);
   });
 
-  setChildren(document.getElementById("challenges"), cards);
+  var a = setChildren(document.getElementById("challenges"), cards);
+  document.getElementById("navigation").hidden = false;
 };
-// getChallenges();
 
 function checkforms() {
   // get all the inputs within the submitted form
@@ -270,6 +270,7 @@ const Router = (ref) => {
       break;
     case "chal":
       getChallenges();
+      break;
   }
   document.getElementById(ref).classList.add("nav__link--active");
   //   history.pushState({}, ref, ref);
