@@ -150,8 +150,12 @@ function selectChallenge(i) {
     place.innerHTML = `<p>You have not participated in any challenge yet. Click <a onclick="Router('chal'); getChallenges()">here</a> to see available challenges</p>`;
   }
 }
-
+var myFile;
 function clickJoin() {
+  var file = myFile;
+  if (!file) return alert("Please select a file to upload!");
+  if (!document.getElementById("defaultContactFormName").value)
+    return alert("Please enter your score!");
   document.getElementById("exampleModalCenter").click();
   var score = $("#defaultContactFormName")[0].value;
   $("#defaultContactFormName")[0].value = "";
@@ -180,8 +184,6 @@ function clickJoin() {
   });
   uploadVideo(currentUser, currentChallenge);
 }
-
-var myFile;
 
 function handleFileSelect(e) {
   console.log("here1");
