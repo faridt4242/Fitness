@@ -1,7 +1,7 @@
 var titles = [];
 var cids = [];
 
-const getLeaderBoard = async () => {
+const getLeaderBoard = async (chal) => {
   const snapshot = await db.collection("leaderboard").orderBy("score").get();
   const leaderboard = snapshot.docs.map((doc) => doc.data());
   var dropdown = `    <div class="btn-group d-flex p-2">
@@ -42,16 +42,17 @@ const getLeaderBoard = async () => {
     if (!$("#root").find(".btn-group")[0]) {
       $("#root").prepend(dropdown);
     }
-    if (cids.length == 0) {
-      selectChallenge(null);
+    if (!chal) {
+        if (cids.length == 0) {
+            selectChallenge(null);
+          } else {
+            selectChallenge(0);
+          }
     } else {
-      selectChallenge(0);
+        selectChallenge(cids.indexOf(chal))
     }
+    
   });
-  // .catch(function(error) {
-  //     console.log("Error getting documents: ", error);
-  // });
-
   // var lal = getUserChallenges(currentUser)
   // lal.then(function (r) {
   //     console.log(r[0])
@@ -95,7 +96,7 @@ function selectChallenge(i) {
   currentUser = 0;
   if (i !== null) {
     table.show();
-    $(".dropdown-toggle").innerText = titles[i];
+    $(".dropdown-toggle")[0].innerText = titles[i];
     var challenge = db
       .collection("challenges")
       .doc(cids[i])
@@ -204,7 +205,6 @@ function uploadVideo(uid, cid) {
 document.getElementById('inputGroupFile01').addEventListener('change', handleFileSelect, false);
 
 
-// 1. Join form check fields + 
 // 2. getChallenge with chal.id
+// 3. assigns 0 when create challenge
 // 3. change pictures
-// 4. leaderboard dropdown
