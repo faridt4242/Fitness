@@ -94,8 +94,9 @@ body {
 }
 
 #me {
-  background-color: rgb(71, 71, 71);
-  color: white;
+  /* background-color: rgb(71, 71, 71); */
+  background-color: #d2b309;
+  font-weight: bold
 }
 /* .table {
   overflow: auto;
@@ -146,6 +147,22 @@ body {
   width: 97%;
 }
 
+#root .dropdown-toggle {
+  background-color: black
+}
+
 #exampleModalCenterTitle {
   font-weight: bold;
+}
+
+#challenges1 .btn {
+  background-color: #d2b309;
+}
+
+#challenges .card-title .btn {
+  background-color: #d2b309;
+}
+
+#challenges .card-title .bjoin {
+  background-color:#8a8254
 }

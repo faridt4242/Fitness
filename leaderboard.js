@@ -5,7 +5,7 @@ const getLeaderBoard = async (chal) => {
   //   const snapshot = await db.collection("leaderboard").orderBy("score").get();
   //   const leaderboard = snapshot.docs.map((doc) => doc.data());
   var dropdown = `    <div class="btn-group d-flex p-2">
-    <button type="button" class="btn btn-primary dropdown-toggle mx-auto " data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    <button type="button" class="btn dropdown-toggle mx-auto " data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         Select Challenge
     </button>
     <div class="dropdown-menu">`;
@@ -146,6 +146,8 @@ function selectChallenge(i) {
           }
 
           place.innerHTML = `<strong> Your rank is ${rank} </strong>`;
+          place.style.color = '#d2b309'
+
         };
 
         forLoop();
@@ -178,7 +180,7 @@ function clickJoin() {
         .getElementById(chal.id)
         .children[0].children[0].children[0].remove();
       document.getElementById(chal.id).children[0].children[0].appendChild(
-        el("button.btn btn-success float-right", {
+        el("button.btn bjoin float-right", {
           innerText: "Joined",
           disabled: true,
         })
@@ -210,6 +212,4 @@ document
   .getElementById("inputGroupFile01")
   .addEventListener("change", handleFileSelect, false);
 
-// 2. getChallenge with chal.id
-// 3. assigns 0 when create challenge
 // 3. change pictures
