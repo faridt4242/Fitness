@@ -2,8 +2,8 @@ var titles = [];
 var cids = [];
 
 const getLeaderBoard = async (chal) => {
-//   const snapshot = await db.collection("leaderboard").orderBy("score").get();
-//   const leaderboard = snapshot.docs.map((doc) => doc.data());
+  //   const snapshot = await db.collection("leaderboard").orderBy("score").get();
+  //   const leaderboard = snapshot.docs.map((doc) => doc.data());
   var dropdown = `    <div class="btn-group d-flex p-2">
     <button type="button" class="btn btn-primary dropdown-toggle mx-auto " data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         Select Challenge
@@ -12,18 +12,15 @@ const getLeaderBoard = async (chal) => {
 
   cids = [];
   titles = [];
-//   currentUser = 0; //TODO: remove reassign to 0 ; this was just to check
+  //   currentUser = 0; //TODO: remove reassign to 0 ; this was just to check
   var challenges = db.collection("challenges").orderBy("participants");
   challenges.get().then(function (querySnapshot) {
-    // console.log(querySnapshot.size);
     querySnapshot.forEach(function (doc) {
-      // console.log(doc.data().title, " => ", doc.data().participants);
       if (doc.data().participants[currentUser]) {
         titles.push(doc.data().title);
         cids.push(doc.data().id);
       }
     });
-    // console.log(titles);
     titles.forEach(function (title, i) {
       dropdown +=
         `<a class="dropdown-item" href="#" onclick=selectChallenge('` +
@@ -66,7 +63,8 @@ const getLeaderBoard = async (chal) => {
         "tr",
         el("th", { scope: "col", innerText: "Place" }),
         el("th", { scope: "col", innerText: "Nickname" }),
-        el("th", { scope: "col", innerText: "Overall Score" })
+        el("th", { scope: "col", innerText: "Score" }),
+        el("th", { scope: "col", innerText: "Video" })
       )
     ),
     tbody
@@ -79,7 +77,7 @@ const getLeaderBoard = async (chal) => {
     el(
       "#challenges1",
       el("h4.text-center", {
-        style: { paddingTop: "3vh", marginBottom: "0" },
+        style: { marginBottom: "0" },
       })
     ),
     el("#challenges", table)
@@ -93,8 +91,6 @@ function selectChallenge(i) {
   var table = $("#challenges").find("table");
   var place = $("#challenges1").find("h4")[0];
   if (i !== null) {
-    //   console.log(titles, i)
-    //   console.log(cids)
     table.show();
     $(".dropdown-toggle")[0].innerText = titles[i];
     var challenge = db
@@ -102,6 +98,7 @@ function selectChallenge(i) {
       .doc(cids[i])
       .get()
       .then(function (c) {
+        var challId = c.data().id;
         var participants = c.data().participants;
         // Create items array
         var items = Object.keys(participants).map(function (key) {
@@ -112,7 +109,6 @@ function selectChallenge(i) {
         items.sort(function (first, second) {
           return second[1] - first[1];
         });
-        console.log(items)
         var rank;
         tbody.innerHTML = "";
 
@@ -122,7 +118,6 @@ function selectChallenge(i) {
             user = items[user];
             var curUser = user[0];
             var curScore = user[1];
-            // console.log(user[0], user[1]);
             const snapshot = await db.collection("users").doc(user[0]).get();
             const nick = snapshot.data().nickname;
             i += 1;
@@ -136,7 +131,16 @@ function selectChallenge(i) {
                 `tr${className}`,
                 el("th", { scope: "row", innerText: i }),
                 el("td", { innerText: nick }),
-                el("td", { innerText: curScore })
+                el("td", { innerText: curScore }),
+                el("td", {
+                  innerHTML:
+                    '<i class="material-icons nav__icon">play_circle_filled</i>',
+                  onclick: () => {
+                    window.open(
+                      `https://firebasestorage.googleapis.com/v0/b/fitmeasure-ac726.appspot.com/o/${user[0]}%2F${challId}?alt=media`
+                    );
+                  },
+                })
               )
             );
           }

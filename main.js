@@ -181,7 +181,6 @@ const submit = () => {
     innerText: "Join",
     onclick: () => {
       joinChallenge = challengeId;
-      console.log(challenge.id);
       // location.href = "join.html";
       // Router()
       // createForm(joinChallenge)

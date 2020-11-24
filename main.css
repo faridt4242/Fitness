@@ -54,6 +54,7 @@ body {
 .dropdown-menu {
   max-height: 80vh;
   overflow: auto;
+  width: 95%;
 }
 .card {
   width: 95%;

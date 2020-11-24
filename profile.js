@@ -1,8 +1,6 @@
 const getProfile = async (profileId = userId) => {
   var user = await db.collection("users").doc(profileId).get();
   const joined = await getUserChallenges(profileId);
-  console.log(joined);
-  console.log(user.data());
   user = user.data();
   var userPage = el(
     "#challenges1",
@@ -44,33 +42,43 @@ const getProfile = async (profileId = userId) => {
       )
     )
   );
-
-  var previous = el("ul.list-group mx-auto", { style: { width: "95%" } });
-  joined.forEach((element) => {
-    previous.appendChild(
+  var tbody = el("tbody");
+  var previous = el(
+    "table.table text-center text-nowrap",
+    el(
+      "thead",
       el(
-        "li.list-group-item",
-        el(".md-v-line"),
-
-        el(
-          "",
-          {
-            style: { cursor: "pointer" },
-            innerHTML: `${element.title}`,
-            onclick: () => {
-              Router("lead"), getLeaderBoard(element.id);
-              Router("lead");
-            },
+        "tr",
+        el("th", { scope: "col", innerText: "Challenge name" }),
+        el("th", { scope: "col", innerText: "Score" }),
+        el("th", { scope: "col", innerText: "Video" })
+      )
+    ),
+    tbody
+  );
+  joined.forEach((element) => {
+    tbody.appendChild(
+      el(
+        "tr",
+        el("th", {
+          scope: "row",
+          innerText: element.title,
+          style: { cursor: "pointer" },
+          onclick: () => {
+            getLeaderBoard(element.id);
+            Router("lead");
           },
-          el(".fas fa-play float-right", {
-            style: { margin: "5px", cursor: "pointer" },
-            onclick: () => {
-              window.open(
-                `https://firebasestorage.googleapis.com/v0/b/fitmeasure-ac726.appspot.com/o/${profileId}%2F${element.id}?alt=media`
-              );
-            },
-          })
-        )
+        }),
+        el("td", { innerText: element.participants[profileId].score }),
+        el("td", {
+          innerHTML:
+            '<i class="material-icons nav__icon">play_circle_filled</i>',
+          onclick: () => {
+            window.open(
+              `https://firebasestorage.googleapis.com/v0/b/fitmeasure-ac726.appspot.com/o/${profileId}%2F${element.id}?alt=media`
+            );
+          },
+        })
       )
     );
   });
