@@ -37,6 +37,10 @@ body {
   background-color: #eeeeee;
 }
 
+.bluediv {
+  color: #009578 !important;
+}
+
 .nav__link--active {
   color: #009578;
 }

@@ -152,7 +152,7 @@ function selectChallenge(i) {
       });
   } else {
     table.hide();
-    place.innerHTML = `<p>You have not participated in any challenge yet. Click <a onclick="Router('chal'); getChallenges()">here</a> to see available challenges</p>`;
+    place.innerHTML = `<p>You have not participated in any challenge yet. Click <a class="bluediv" onclick="Router('chal'); getChallenges()">here</a> to see available challenges</p>`;
   }
 }
 var myFile;
